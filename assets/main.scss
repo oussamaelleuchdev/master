@@ -1,0 +1,26 @@
+@import 'utils/_variables';
+
+.container {
+  margin-right: $contain-gutter-mobile;
+  margin-left: $contain-gutter-mobile;
+}
+
+@media (min-width: $mq-tablet) {
+  .container {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 3vw;
+    padding-right: 3vw;
+    max-width: $mq-tablet;
+  }
+}
+
+@media (min-width: $mq-desktop) {
+  .container {
+    width: $mq-desktop;
+    padding-left: 1vw;
+    padding-right: 1vw;
+  }
+}
+
+
