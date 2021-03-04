@@ -14,12 +14,13 @@
 
 <script>
 import { mapGetters } from "vuex"
+import { GET_SELECTED_POST } from "~/store/getters-types";
 import postService from "~/services/postService";
 
 export default {
   computed: {
     ...mapGetters({
-      getSelectedPost: 'getSelectedPost'
+      getSelectedPost: GET_SELECTED_POST
     })
   },
   async asyncData({ $axios, store, params }) {

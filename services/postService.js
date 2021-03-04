@@ -1,15 +1,17 @@
 import { Post } from "~/models/Post";
+import { INIT_POSTS } from "~/store/mutations-types";
+import { SET_SELECTED_POST } from "~/store/mutations-types";
 
 export default {
 
   async getPosts({ $axios, store }) {
     /** get list of posts with API **/
-      const posts = await $axios.get(`${process.env.baseServerUrl}posts`).catch(
+      const { data } = await $axios.get(`${process.env.baseServerUrl}posts`).catch(
         err => console.log(err)
       )
-      if (posts && posts.data) {
-          const postsData = posts.data.slice(0, 5).map(post => new Post(post))
-          store.commit('initPosts', postsData)
+      if (data) {
+          const postsData = data.slice(0, 5).map(post => new Post(post))
+          store.commit(INIT_POSTS, postsData)
           return postsData
       }
   },
@@ -19,16 +21,16 @@ export default {
       if (posts.length) {
         /** Get post from store if home page is visited before **/
         const selectedPost = store.getters.getPostById(id)[0]
-        store.commit('setSelectedPost', selectedPost)
+        store.commit(SET_SELECTED_POST, selectedPost)
         return selectedPost
       } else {
         /** Get post from API and **/
-        const post = await $axios.get(`${process.env.baseServerUrl}posts/${id}`).catch(
+        const { data } = await $axios.get(`${process.env.baseServerUrl}posts/${id}`).catch(
           err => console.log(err)
         )
-        if (post && post.data) {
-          store.commit('setSelectedPost', post.data)
-          return post.data
+        if (data) {
+          store.commit(SET_SELECTED_POST, data)
+          return data
         }
       }
   }

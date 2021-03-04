@@ -25,6 +25,7 @@
 
 <script>
 import { mapGetters } from "vuex"
+import { GET_PLAYERS_SORTED } from "~/store/getters-types";
 import gameService from "~/services/gameService";
 import RadioInput from "~/components/formFields/RadioInput";
 export default {
@@ -40,7 +41,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getSortedPlayers: 'getSortedPlayers'
+      getSortedPlayers: GET_PLAYERS_SORTED
     })
   },
   created() {

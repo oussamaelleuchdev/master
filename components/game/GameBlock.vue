@@ -10,6 +10,7 @@
 <script>
 import gameService from "~/services/gameService";
 import { Player } from "~/models/Player";
+import { ADD_PLAYER } from "~/store/mutations-types";
 
 export default {
   name: "GameBlock",
@@ -36,7 +37,7 @@ export default {
         /** calculate the score of the user and emit event that game is finished **/
         const clickTime = new Date();
         const score = gameService.getTimeMilliSecsClicked(clickTime, this.appearTime)
-        this.$store.commit('addPlayer', new Player( { ...this.player, score: score }))
+        this.$store.commit(ADD_PLAYER, new Player( { ...this.player, score: score }))
         this.$emit('game-finished', score)
     },
     updateBlockWithRandomPosition() {

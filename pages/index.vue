@@ -8,13 +8,14 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { GET_POSTS } from "~/store/getters-types";
 import Post from "@/components/posts/Post";
 import postService from "~/services/postService";
 export default {
   components: { Post },
   computed: {
     ...mapGetters({
-      getPosts: 'getPosts'
+      getPosts: GET_POSTS
     })
   },
   async asyncData({ $axios, store }) {
