@@ -22,6 +22,16 @@
       <div class="background-title"> Background color of your block  </div>
       <ColorPicker @color-changed="updateColor" />
     </div>
+
+    <div class="predireflex-form--retry">
+      <BaseInput v-model.number="form.retry"
+                 :validator="$v.form.retry"
+                 :is-munified="true"
+                 type="number"
+                 label="Number of retry"
+      />
+      <div class="predireflex-form--retry--number"> time{{ form.retry > 1 ? 's' : null }}  </div>
+    </div>
     <div @click="onStartGame" class="predireflex-form--go"> Here we go ! </div>
   </div>
 </template>
@@ -39,7 +49,8 @@ export default {
       form: {
         name: null,
         delay: null,
-        color: null
+        color: null,
+        retry: 1
       }
     }
   },
@@ -64,7 +75,8 @@ export default {
       },
       delay: {
         required
-      }
+      },
+      retry: {}
     }
   }
 }
@@ -84,11 +96,10 @@ export default {
       margin-bottom: 20px;
     }
 
-    &--delay {
-      margin-bottom: 20px;
+    &--delay, &--retry {
       position: relative;
 
-      &--sec {
+      &--sec, &--number {
         font-size: 26px;
         font-weight: 500;
         position: absolute;
@@ -97,9 +108,17 @@ export default {
       }
     }
 
+    &--delay {
+      margin-bottom: 20px;
+    }
+
+    &--retry {
+      margin-bottom: 40px;
+    }
+
     &--background {
       display: flex;
-      margin-bottom: 40px;
+      margin-bottom: 20px;
 
       .background-title {
         font-size: 26px;
