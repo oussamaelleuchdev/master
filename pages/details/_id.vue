@@ -1,61 +1,52 @@
 <template>
-    <div class="post-detail">
-      <div class="post-detail--header"> You are currently reading the post #{{ getSelectedPost.id }} </div>
-      <div class="post-detail--block">
-        <div class="item--title"> Title : </div>
-        <div class="item--value"> {{ getSelectedPost.title }} </div>
+    <div class="post-details">
+      <div class="post-details--block">
+         <PostDetails />
       </div>
-      <div class="post-detail--block">
-        <div class="item--title"> Description : </div>
-        <div class="item--value"> {{ getSelectedPost.body }} </div>
+      <div class="post-details--comments">
+        <div class="post-details--comments--title"> Comments :</div>
+        <div v-for="comment in comments" class="comment">
+          <PostComment :comment="comment" :key="comment.id" />
+        </div>
       </div>
     </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex"
-import { GET_SELECTED_POST } from "~/store/getters-types";
 import postService from "~/services/postService";
+import PostDetails from "~/components/posts/PostDetails";
+import PostComment from "~/components/posts/PostComment";
 
 export default {
-  computed: {
-    ...mapGetters({
-      getSelectedPost: GET_SELECTED_POST
-    })
-  },
-  async asyncData({ $axios, store, params }) {
-    await postService.getPostById({ $axios, store }, parseInt(params.id))
-  }
+    components: { PostDetails, PostComment },
+    data() {
+      return {
+        comments: []
+      }
+    },
+    async asyncData({ $axios, store, params }) {
+      const postId = parseInt(params.id)
+      await postService.getPostById({ $axios, store }, postId)
+      const { data } = await postService.getPostComments({ $axios, store }, postId)
+      return { comments: data }
+    }
 }
 </script>
 
 <style lang="scss" scoped>
-    .post-detail {
+  .post-details {
+
+    &--comments {
       text-transform: capitalize;
 
-      &--header {
-        text-align: center;
+      &--title {
         font-size: 32px;
         font-weight: 400;
         margin: 20px 0;
       }
-
-      &--block {
-        .item {
-          &--title {
-            font-size: 28px;
-            font-weight: 500;
-          }
-
-          &--value {
-            font-size: 24px;
-            font-weight: 500;
-          }
-        }
-
-        &:last-child {
-          margin-top: 40px;
-        }
+      .comment {
+        margin-bottom: 20px;
       }
     }
+  }
 </style>

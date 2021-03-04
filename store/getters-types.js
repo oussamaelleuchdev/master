@@ -1,5 +1,6 @@
 export const GET_POSTS = 'getPosts'
 export const GET_POST_BY_ID = 'getPostById'
+export const GET_COMMENTS_BY_POST_ID = 'getCommentsByPostId'
 export const GET_SELECTED_POST = 'getSelectedPost'
 export const GET_PLAYERS = 'getPlayers'
 export const GET_PLAYERS_SORTED = 'getSortedPlayers'

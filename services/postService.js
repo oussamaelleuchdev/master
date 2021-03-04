@@ -1,7 +1,7 @@
 import { Post } from "~/models/Post";
-import { INIT_POSTS } from "~/store/mutations-types";
+import {ADD_COMMENTS, INIT_POSTS} from "~/store/mutations-types";
 import { SET_SELECTED_POST } from "~/store/mutations-types";
-
+import { GET_COMMENTS_BY_POST_ID } from "~/store/getters-types";
 export default {
 
   async getPosts({ $axios, store }) {
@@ -32,6 +32,23 @@ export default {
           store.commit(SET_SELECTED_POST, data)
           return data
         }
+      }
+  },
+
+  async getPostComments({ $axios, store }, id) {
+      /** returns comments if the exists in the store **/
+      const comments = store.getters[GET_COMMENTS_BY_POST_ID](id)
+      if (comments) {
+        return comments
+      } else {
+          /** fetch comments from API **/
+          const { data } = await $axios.get(`${process.env.baseServerUrl}posts/${id}/comments`).catch(
+            err => console.log(err)
+          )
+          if (data && data.length) {
+            store.commit(ADD_COMMENTS, { postId: id, data })
+            return { postId: id, data }
+          }
       }
   }
 }
