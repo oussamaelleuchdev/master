@@ -5,8 +5,8 @@
       </div>
       <div class="post-details--comments">
         <div class="post-details--comments--title"> Comments :</div>
-        <div v-for="comment in comments" class="comment">
-          <PostComment :comment="comment" :key="comment.id" />
+        <div v-for="comment in comments" :key="comment.id" class="comment">
+          <PostComment :comment="comment" />
         </div>
       </div>
     </div>
