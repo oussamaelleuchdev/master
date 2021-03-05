@@ -6,10 +6,11 @@ export default {
 
   async getPosts({ $axios, store }) {
     /** get list of posts with API **/
-      const { data } = await $axios.get(`${process.env.baseServerUrl}posts`).catch(
+      const posts = await $axios.get(`${process.env.baseServerUrl}posts`).catch(
         err => console.log(err)
       )
-      if (data) {
+      if (posts) {
+          const { data } = posts
           const postsData = data.slice(0, 5).map(post => new Post(post))
           store.commit(INIT_POSTS, postsData)
           return postsData
@@ -25,10 +26,11 @@ export default {
         return selectedPost
       } else {
         /** Get post from API and **/
-        const { data } = await $axios.get(`${process.env.baseServerUrl}posts/${id}`).catch(
+        const post = await $axios.get(`${process.env.baseServerUrl}posts/${id}`).catch(
           err => console.log(err)
         )
-        if (data) {
+        if (post) {
+          const { data } = post
           store.commit(SET_SELECTED_POST, data)
           return data
         }
@@ -42,12 +44,15 @@ export default {
         return comments
       } else {
           /** fetch comments from API **/
-          const { data } = await $axios.get(`${process.env.baseServerUrl}posts/${id}/comments`).catch(
+          const comments = await $axios.get(`${process.env.baseServerUrl}posts/${id}/comments`).catch(
             err => console.log(err)
           )
-          if (data && data.length) {
-            store.commit(ADD_COMMENTS, { postId: id, data })
-            return { postId: id, data }
+          if (comments) {
+            const { data } = comments
+            if (data && data.length) {
+              store.commit(ADD_COMMENTS, { postId: id, data })
+              return { postId: id, data }
+            }
           }
       }
   }
